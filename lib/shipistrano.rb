@@ -57,10 +57,8 @@ after "deploy:update", "deploy:cleanup"
 # General namespace
 namespace :ship do
 
-  #
   # Fixes the permissions on the remote server folder. Uses sudo if
   # available for the user set via :user
-  #
   desc "Fix the permissions on the remote folder."
   task :fix_permissions do
     if fetch(:ignore_ownership, false) != true then
@@ -73,6 +71,7 @@ namespace :ship do
       run "if [ -d #{deploy_to} ]; then #{try_sudo} chown -R #{owner} #{deploy_to}; fi"
     end
   end
+
 end
 
 #before('deploy', 'ship:fix_permissions')

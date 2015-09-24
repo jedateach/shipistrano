@@ -43,21 +43,24 @@ namespace :htaccess do
       run "if [ -f #{auth_folder}/.htaccess.backup ]; then #{try_sudo} rm -rf #{auth_folder}/.htaccess && cp #{auth_folder}/.htaccess.backup #{auth_folder}/.htaccess; fi"
     end
 
-    desc <<-DESC
-      Unprotect latest version.
-
-    DESC
+    desc "Unprotect latest version."
     task :unprotect_production do
       run "if [ -f #{production_folder}/.htaccess.backup ]; then #{try_sudo} rm -rf #{production_folder}/.htaccess && cp #{production_folder}/.htaccess.backup #{production_folder}/.htaccess; fi"
     end
   end
 
-  desc <<-DESC
-    Rewrite base in htaccess file to /.
-
-  DESC
+  desc "Rewrite base in htaccess file to /."
   task :rewrite_base do
     append_to_file("#{latest_release}/.htaccess", "\\nRewriteBase /")
+  end
+
+  desc "Force SSL connections"
+  task :force_ssl do
+    prepend_to_file("#{latest_release}/.htaccess",
+      "RewriteEngine On\\n"+
+      "RewriteCond %{HTTPS} off\\n"+
+      "RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]\\n"
+    )
   end
 
   def prepend_to_file(filename, str)

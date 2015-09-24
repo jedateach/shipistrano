@@ -19,7 +19,7 @@
 
 # SilverStripe stores assets in assets by default
 set :assets_folder, fetch(:assets_folder, "assets")
-set :assets_path, fetch(:assets_path, "")
+set :assets_path, fetch(:assets_path, nil)
 set :use_silverstripe_cache, fetch(:use_silverstripe_cache, true)
 
 namespace :silverstripe do

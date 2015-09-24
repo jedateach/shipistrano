@@ -47,7 +47,7 @@ namespace :assets do
 
   DESC
   task :upload do
-    system "rsync -rv #{asset_location}/ #{user}@#{ip}:#{deploy_to}/shared/#{assets_folder}"
+    system "rsync -avz assets/ #{user}@#{ip}:#{deploy_to}/shared/#{assets_folder}"
 
     assets.fix_permissions
   end
